@@ -7,8 +7,6 @@ var closure = require('gulp-closure-compiler');
 var browserify = require('gulp-browserify');
 var jsdoc = require('gulp-jsdoc');
 
-var app = 'build/main.js';
-
 // Lint
 gulp.task('lint', function() {
     return gulp.src('src/*.js')
@@ -18,7 +16,7 @@ gulp.task('lint', function() {
 
 gulp.task('check', function(){
     // Perform type checking, etc. with closure compiler
-    gulp.src(app)
+    gulp.src('build/wireframe.js')
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
             fileName: 'wireframe.min.js',
@@ -31,7 +29,7 @@ gulp.task('check', function(){
 
 // Compress/minify
 gulp.task('compress', function(){
-    gulp.src('build/main.js')
+    gulp.src('build/wireframe.js')
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
             fileName: 'wireframe.min.js',
@@ -44,7 +42,7 @@ gulp.task('compress', function(){
 });
 
 gulp.task('browserify', function() {
-    gulp.src('src/main.js')
+    gulp.src('src/wireframe.js')
         .pipe(browserify({
             standalone: 'wireframe'
         }))
