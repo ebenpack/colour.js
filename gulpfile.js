@@ -56,7 +56,7 @@ gulp.task('docs', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/*.js', ['lint', 'browserify']);
+    gulp.watch('src/**/*', ['lint', 'browserify']);
 });
 
 // Default Task
