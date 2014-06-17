@@ -16,7 +16,7 @@ gulp.task('lint', function() {
 
 gulp.task('check', function(){
     // Perform type checking, etc. with closure compiler
-    gulp.src('build/wireframe.js')
+    gulp.src('build/main.js')
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
             fileName: 'wireframe.min.js',
@@ -29,7 +29,7 @@ gulp.task('check', function(){
 
 // Compress/minify
 gulp.task('compress', function(){
-    gulp.src('build/wireframe.js')
+    gulp.src('build/main.js')
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
             fileName: 'wireframe.min.js',
@@ -42,7 +42,7 @@ gulp.task('compress', function(){
 });
 
 gulp.task('browserify', function() {
-    gulp.src('src/wireframe.js')
+    gulp.src('src/main.js')
         .pipe(browserify({
             standalone: 'wireframe'
         }))
