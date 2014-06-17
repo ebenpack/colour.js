@@ -7,6 +7,8 @@ var closure = require('gulp-closure-compiler');
 var browserify = require('gulp-browserify');
 var jsdoc = require('gulp-jsdoc');
 
+var app = 'build/main.js';
+
 // Lint
 gulp.task('lint', function() {
     return gulp.src('src/*.js')
@@ -16,7 +18,7 @@ gulp.task('lint', function() {
 
 gulp.task('check', function(){
     // Perform type checking, etc. with closure compiler
-    gulp.src('build/main.js')
+    gulp.src(app)
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
             fileName: 'wireframe.min.js',
