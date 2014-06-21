@@ -9,7 +9,7 @@ var jsdoc = require('gulp-jsdoc');
 
 // Lint
 gulp.task('lint', function() {
-    return gulp.src('src/*.js')
+    return gulp.src('src/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -51,15 +51,16 @@ gulp.task('browserify', function() {
 
 // Build documentation
 gulp.task('docs', function() {
-    gulp.src('src/*.js')
+    gulp.src('src/**/*.js')
         .pipe(jsdoc('docs'));
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/**/*', ['lint', 'browserify']);
+    gulp.watch('src/**/*.(js|html)', ['lint', 'browserify']);
 });
 
 // Default Task
 gulp.task('default', ['lint', 'browserify', 'watch']);
 gulp.task('compile', ['browserify', 'compress']);
 gulp.task('check', ['lint', 'browserify', 'check']);
+gulp.task('docs', ['docs']);
