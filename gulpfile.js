@@ -50,7 +50,7 @@ gulp.task('browserify', function() {
 });
 
 // Build documentation
-gulp.task('docs', function() {
+gulp.task('builddocs', function() {
     gulp.src('src/**/*.js')
         .pipe(jsdoc('docs'));
 });
@@ -63,4 +63,4 @@ gulp.task('watch', function() {
 gulp.task('default', ['lint', 'browserify', 'watch']);
 gulp.task('compile', ['browserify', 'compress']);
 gulp.task('check', ['lint', 'browserify', 'check']);
-gulp.task('docs', ['docs']);
+gulp.task('docs', ['builddocs']);
