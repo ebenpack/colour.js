@@ -59,7 +59,7 @@ gulp.task('docs', function() {
  
 gulp.task('test', function () {
     gulp.src('tests/**/*.js')
-    .pipe(mocha({ reporter: 'spec'}));
+    .pipe(mocha({ reporter: 'min', ui: 'tdd'}));
 });
 
 gulp.task('testwatch', function () {
