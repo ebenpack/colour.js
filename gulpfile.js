@@ -62,6 +62,10 @@ gulp.task('test', function () {
     .pipe(mocha({ reporter: 'spec'}));
 });
 
+gulp.task('testwatch', function () {
+    gulp.watch('tests/**/*.js', ['test']);
+});
+
 gulp.task('watch', function() {
     gulp.watch('src/**/*.{js,html}', ['lint', 'browserify']);
 });
