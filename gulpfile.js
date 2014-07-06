@@ -1,11 +1,12 @@
 // Include gulp
-var gulp = require('gulp'); 
+var gulp = require('gulp');
 
 // Include Our Plugins
 var jshint = require('gulp-jshint');
 var closure = require('gulp-closure-compiler');
 var browserify = require('gulp-browserify');
 var jsdoc = require('gulp-jsdoc');
+var mocha = require("gulp-mocha");
 
 // Lint
 gulp.task('lint', function() {
@@ -53,6 +54,12 @@ gulp.task('browserify', function() {
 gulp.task('docs', function() {
     gulp.src('src/**/*.js')
         .pipe(jsdoc('docs'));
+});
+
+ 
+gulp.task('test', function () {
+    gulp.src('tests/**/*.js')
+    .pipe(mocha({ reporter: 'spec'}));
 });
 
 gulp.task('watch', function() {
