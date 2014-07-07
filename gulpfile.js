@@ -1,12 +1,14 @@
 // Include gulp
 var gulp = require('gulp');
+var rimraf = require('gulp-rimraf');
 
 // Include Our Plugins
 var jshint = require('gulp-jshint');
 var closure = require('gulp-closure-compiler');
 var browserify = require('gulp-browserify');
 var jsdoc = require('gulp-jsdoc');
-var mocha = require("gulp-mocha");
+var mochaPhantomJS = require('gulp-mocha-phantomjs');
+var generateSuite = require("gulp-mocha-browserify-suite");
 
 // Lint
 gulp.task('lint', function() {
@@ -56,21 +58,34 @@ gulp.task('docs', function() {
         .pipe(jsdoc('docs'));
 });
 
- 
-gulp.task('test', function () {
-    gulp.src('tests/**/*.js')
-    .pipe(mocha({ reporter: 'min', ui: 'tdd'}));
-});
-
-gulp.task('testwatch', function () {
-    gulp.watch('tests/**/*.js', ['test']);
-});
-
 gulp.task('watch', function() {
     gulp.watch('src/**/*.{js,html}', ['lint', 'browserify']);
+});
+
+gulp.task('clean', function() {
+  return gulp.src('tests/build/suite.js', { read: false }) // much faster
+    .pipe(rimraf());
+});
+
+
+gulp.task('browserify-tests', ['clean'], function() {
+    return gulp.src('tests/**/*.js')
+        .pipe(generateSuite())
+        .pipe(browserify({
+            standalone: 'tests',
+            debug: true
+        }))
+        .pipe(gulp.dest('tests/build'));
+});
+
+gulp.task('mocha-phantom', ['browserify-tests'], function() {
+    return gulp.src('tests/testrunner.html').pipe(mochaPhantomJS({ reporter: 'min', ui: 'tdd'}));
 });
 
 // Default Task
 gulp.task('default', ['lint', 'browserify', 'watch']);
 gulp.task('compile', ['browserify', 'compress']);
 gulp.task('check', ['lint', 'browserify', 'check']);
+gulp.task('test', function(){
+    gulp.watch(['tests/**/*.{js,html}', '!tests/build/*'], ['mocha-phantom']);
+});
