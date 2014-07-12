@@ -1,8 +1,8 @@
 // Include gulp
 var gulp = require('gulp');
-var rimraf = require('gulp-rimraf');
 
 // Include Our Plugins
+var rimraf = require('gulp-rimraf');
 var jshint = require('gulp-jshint');
 var closure = require('gulp-closure-compiler');
 var browserify = require('gulp-browserify');
@@ -53,7 +53,7 @@ gulp.task('browserify', function() {
 });
 
 // Build documentation
-gulp.task('docs', function() {
+gulp.task('docs', ['cleandocs'], function() {
     gulp.src('src/**/*.js')
         .pipe(jsdoc('docs'));
 });
@@ -62,13 +62,17 @@ gulp.task('watch', function() {
     gulp.watch('src/**/*.{js,html}', ['lint', 'browserify']);
 });
 
-gulp.task('clean', function() {
+gulp.task('cleantests', function() {
   return gulp.src('tests/build/suite.js', { read: false }) // much faster
     .pipe(rimraf());
 });
 
+gulp.task('cleandocs', function() {
+  return gulp.src('docs/*', { read: false }) // much faster
+    .pipe(rimraf());
+});
 
-gulp.task('browserify-tests', ['clean'], function() {
+gulp.task('browserify-tests', ['cleantests'], function() {
     return gulp.src('tests/**/*.js')
         .pipe(generateSuite())
         .pipe(browserify({
