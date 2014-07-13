@@ -6,7 +6,7 @@ var hslToRgb, rgbToHsl, parseColor, cache;
  */
 function Color(color){
     var parsed_color = {};
-    var color = color.toLowerCase();
+    color = color.toLowerCase();
     if (color in cache){
         parsed_color = cache[color];
     } else {
