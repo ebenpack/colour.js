@@ -1,31 +1,56 @@
 var Color = require('../../src/utilities/color.js');
 var colorlist = require('../data/colors.js');
+var nearlyEqual = require('../helpers.js')['nearlyEqual'];
 var assert = require("assert");
 
 suite('Color', function(){
-    var red, green, rgba, hsl, hsla, aliceblue, epsilon;
+    var red, green, rgba, hsl, hsla, named, epsilon;
     setup(function(){
+        epsilon = 0.01;
         red = new Color("red");
         green = new Color("#BADA55");
         rgba = new Color("rgba(255, 0, 0, 0.3)");
-        epsilon = 0.01;
         hsl = new Color("hsl(0, 100%, 50%)");
         hsla = new Color("hsla(0, 100%, 50%, 0.3)");
+        named = [];
+        for (var i = 0; i < colorlist.length; i++){
+            var color = colorlist[i];
+            named.push([new Color(color[0]), new Color(color[1]), color[2]]);
+        }
     });
     suite('properties', function(){
         test('rgb', function(){
             assert.equal(red.rgb.r, 255);
             assert.equal(red.rgb.g, 0);
             assert.equal(red.rgb.b, 0);
+            for (var i = 0; i < named.length; i++){
+                var named_color = named[i][0];
+                var hex_color = named[i][1];
+                var actual = named[i][2];
+                assert.equal(named_color.rgb.r, hex_color.rgb.r);
+                assert.equal(named_color.rgb.g, hex_color.rgb.g);
+                assert.equal(named_color.rgb.b, hex_color.rgb.b);
+                assert.equal(named_color.rgb.r, actual[0]);
+                assert.equal(named_color.rgb.g, actual[1]);
+                assert.equal(named_color.rgb.b, actual[2]);
+            }
         });
         test('hsl', function(){
             assert.equal(red.hsl.h, 0);
             assert.equal(red.hsl.s, 1);
             assert.equal(red.hsl.l, 0.5);
+            for (var i = 0; i < named.length; i++){
+                var named_color = named[i][0];
+                var hex_color = named[i][1];
+                var actual = named[i][2];
+                assert.equal(named_color.rgb.h, hex_color.rgb.h);
+                assert.equal(named_color.rgb.s, hex_color.rgb.s);
+                assert.equal(named_color.rgb.l, hex_color.rgb.l);
+            }
         });
         test('alpha', function(){
-            assert.ok(Math.abs(red.alpha - 1) < epsilon);
-            assert.ok(Math.abs(rgba.alpha - 0.3) < epsilon);
+            assert.ok(nearlyEqual(red.alpha, 1));
+            assert.ok(nearlyEqual(rgba.alpha, 0.3));
         });
     });
     suite('methods', function(){
