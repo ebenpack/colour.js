@@ -12,7 +12,7 @@ suite('Color', function(){
         blue = new Color("blue");
         bada55 = new Color("#BADA55");
         rgb = new Color("rgb(1, 7, 29)");
-        rgba = new Color("rgba(255, 0, 0, 0.3)");
+        rgba = new Color("rgba(1, 7, 29, 0.3)");
         hsl = new Color("hsl(0, 100%, 50%)");
         hsla = new Color("hsla(0, 100%, 50%, 0.3)");
         named = [];
@@ -26,6 +26,14 @@ suite('Color', function(){
             assert.equal(red.rgb.r, 255);
             assert.equal(red.rgb.g, 0);
             assert.equal(red.rgb.b, 0);
+            assert.equal(rgb.rgb.r, 1);
+            assert.equal(rgb.rgb.g, 7);
+            assert.equal(rgb.rgb.b, 29);
+            assert.equal(rgb.alpha, 1);
+            assert.equal(rgba.rgb.r, 1);
+            assert.equal(rgba.rgb.g, 7);
+            assert.equal(rgba.rgb.b, 29);
+            assert.ok(nearlyEqual(rgba.alpha, 0.3));
             for (var i = 0; i < named.length; i++){
                 var named_color = named[i][0];
                 var hex_color = named[i][1];
@@ -42,6 +50,16 @@ suite('Color', function(){
             assert.equal(red.hsl.h, 0);
             assert.equal(red.hsl.s, 100);
             assert.equal(red.hsl.l, 50);
+
+            assert.equal(hsl.hsl.h, 0);
+            assert.equal(hsl.hsl.s, 100);
+            assert.equal(hsl.hsl.l, 50);
+            assert.ok(nearlyEqual(hsl.alpha, 1));
+
+            assert.equal(hsla.hsl.h, 0);
+            assert.equal(hsla.hsl.s, 100);
+            assert.equal(hsla.hsl.l, 50);
+            assert.ok(nearlyEqual(hsla.alpha, 0.3));
             for (var i = 0; i < named.length; i++){
                 var named_color = named[i][0];
                 var hex_color = named[i][1];
@@ -139,12 +157,6 @@ suite('Color', function(){
             assert.equal(b3.rgb.r, 0);
             assert.equal(b3.rgb.g, 0);
             assert.equal(b3.rgb.b, 0);
-        });
-        test('hslToRgb', function(){
-
-        });
-        test('rgbToHsl', function(){
-
         });
     });
 });
