@@ -28,11 +28,10 @@ function Color(color){
 Color.prototype.lighten = function(percent){
     var hsl = this.hsl;
     var lum = hsl.l + percent;
-    if (lum > 1){
-        lum = 1;
+    if (lum > 100){
+        lum = 100;
     }
-    var lighter = hslToRgb(hsl.h, hsl.s, lum);
-    return new Color("rgb(" + Math.floor(lighter.r) + "," + Math.floor(lighter.g) + "," + Math.floor(lighter.b) + ")");
+    return new Color("hsla(" + hsl.h + "," + hsl.s + "%," + lum + "%," + this.alpha + ")");
 };
 /**
  * Darken a color by the given percentage.
@@ -46,8 +45,7 @@ Color.prototype.darken = function(percent){
     if (lum < 0){
         lum = 0;
     }
-    var darker = hslToRgb(hsl.h, hsl.s, lum);
-    return new Color("rgb(" + Math.floor(darker.r) + "," + Math.floor(darker.g) + "," + Math.floor(darker.b) + ")");
+    return new Color("hsla(" + hsl.h + "," + hsl.s + "%," + lum + "%," + this.alpha + ")");
 };
 /**
  * @param  {number} h Hue
@@ -57,7 +55,7 @@ Color.prototype.darken = function(percent){
  */
 hslToRgb = function(h, s, l){
     function _v(m1, m2, hue){
-        hue = hue % 1;
+        hue = hue;
         if (hue < 0){hue+=1;}
         if (hue < (1/6)){
             return m1 + (m2-m1)*hue*6;
@@ -120,7 +118,7 @@ rgbToHsl = function(r, g, b){
     }
     h = (h/6) % 1;
     if (h < 0){h+=1;}
-    return {'h': h, 's': s, 'l': l};
+    return {'h': h*360, 's': s*100, 'l': l*100};
 };
 
 /**
