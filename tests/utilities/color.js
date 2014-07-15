@@ -1,10 +1,10 @@
 var Color = require('../../src/utilities/color.js');
-var colorlist = require('../data/colors.js');
+var named = require('../data/colors.js');
 var nearlyEqual = require('../helpers.js')['nearlyEqual'];
 var assert = require("assert");
 
 suite('Color', function(){
-    var red, green, rgba, hsl, hsla, named;
+    var red, green, blue, rgb, rgba, hsl, hsla;
     setup(function(){
         red = new Color("red");
         green = new Color("#0F0"); // Named color 'green' is rgb(0,128,0)
@@ -13,11 +13,6 @@ suite('Color', function(){
         rgba = new Color("rgba(1, 7, 29, 0.3)");
         hsl = new Color("hsl(0, 100%, 50%)");
         hsla = new Color("hsla(0, 100%, 50%, 0.3)");
-        named = [];
-        for (var i = 0; i < colorlist.length; i++){
-            var color = colorlist[i];
-            named.push([new Color(color[0]), new Color(color[1]), color[2]]);
-        }
     });
     suite('properties', function(){
         test('rgb', function(){
@@ -32,16 +27,18 @@ suite('Color', function(){
             assert.equal(rgba.rgb.g, 7);
             assert.equal(rgba.rgb.b, 29);
             assert.ok(nearlyEqual(rgba.alpha, 0.3));
-            for (var i = 0; i < named.length; i++){
-                var named_color = named[i][0];
-                var hex_color = named[i][1];
-                var actual = named[i][2];
-                assert.equal(named_color.rgb.r, hex_color.rgb.r);
-                assert.equal(named_color.rgb.g, hex_color.rgb.g);
-                assert.equal(named_color.rgb.b, hex_color.rgb.b);
-                assert.equal(named_color.rgb.r, actual[0]);
-                assert.equal(named_color.rgb.g, actual[1]);
-                assert.equal(named_color.rgb.b, actual[2]);
+            for (var color in named){
+                if (named.hasOwnProperty(color)){
+                    var name = new Color(color);
+                    var hex = new Color(named[color].hex);
+                    var named_rgb = named[color].rgb;
+                    assert.equal(name.rgb.r, hex.rgb.r);
+                    assert.equal(name.rgb.g, hex.rgb.g);
+                    assert.equal(name.rgb.b, hex.rgb.b);
+                    assert.equal(name.rgb.r, named_rgb.r);
+                    assert.equal(name.rgb.g, named_rgb.g);
+                    assert.equal(name.rgb.b, named_rgb.b);
+                } 
             }
         });
         test('hsl', function(){
@@ -58,13 +55,18 @@ suite('Color', function(){
             assert.equal(hsla.hsl.s, 100);
             assert.equal(hsla.hsl.l, 50);
             assert.ok(nearlyEqual(hsla.alpha, 0.3));
-            for (var i = 0; i < named.length; i++){
-                var named_color = named[i][0];
-                var hex_color = named[i][1];
-                var actual = named[i][2];
-                assert.equal(named_color.rgb.h, hex_color.rgb.h);
-                assert.equal(named_color.rgb.s, hex_color.rgb.s);
-                assert.equal(named_color.rgb.l, hex_color.rgb.l);
+            for (var color in named){
+                if (named.hasOwnProperty(color)){
+                    var name = new Color(color);
+                    var hex = new Color(named[color].hex);
+                    var named_hsl = named[color].rgb;
+                    assert.equal(name.rgb.h, hex.rgb.h);
+                    assert.equal(name.rgb.s, hex.rgb.s);
+                    assert.equal(name.rgb.l, hex.rgb.l);
+                    assert.equal(name.rgb.h, named_hsl.h);
+                    assert.equal(name.rgb.s, named_hsl.s);
+                    assert.equal(name.rgb.l, named_hsl.l);
+                }
             }
         });
         test('alpha', function(){
