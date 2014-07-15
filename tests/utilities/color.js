@@ -4,13 +4,11 @@ var nearlyEqual = require('../helpers.js')['nearlyEqual'];
 var assert = require("assert");
 
 suite('Color', function(){
-    var red, green, rgba, hsl, hsla, named, epsilon;
+    var red, green, rgba, hsl, hsla, named;
     setup(function(){
-        epsilon = 0.01;
         red = new Color("red");
         green = new Color("#0F0"); // Named color 'green' is rgb(0,128,0)
         blue = new Color("blue");
-        bada55 = new Color("#BADA55");
         rgb = new Color("rgb(1, 7, 29)");
         rgba = new Color("rgba(1, 7, 29, 0.3)");
         hsl = new Color("hsl(0, 100%, 50%)");
