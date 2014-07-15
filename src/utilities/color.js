@@ -93,12 +93,14 @@ rgbToHsl = function(r, g, b){
     b = b / 255;
     var maxc = Math.max(r, g, b);
     var minc = Math.min(r, g, b);
-    var l = (minc+maxc)/2;
+    var l = Math.round(((minc+maxc)/2)*100);
+    if (l > 100) {l = 100;}
+    if (l < 0) {l = 0;}
     var h, s;
     if (minc === maxc){
         return {'h': 0, 's': 0, 'l': l};
     }
-    if (l <= 0.5){
+    if (l <= 50){
         s = (maxc-minc) / (maxc+minc);
     }
     else{
@@ -118,9 +120,14 @@ rgbToHsl = function(r, g, b){
     }
     h = (h/6) % 1;
     if (h < 0){h+=1;}
-    return {'h': h*360, 's': s*100, 'l': l*100};
+    h = Math.round(h*360);
+    s = Math.round(s*100);
+    if (h > 360) {h = 360;}
+    if (h < 0) {h = 0;}
+    if (s > 100) {s = 100;}
+    if (s < 0) {s = 0;}
+    return {'h': h, 's': s, 'l': l};
 };
-
 /**
  * Parse a CSS color value and return an rgba color object.
  * @param  {string} color A legal CSS color value (hex, color keyword, rgb[a], hsl[a]).
