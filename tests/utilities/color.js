@@ -72,6 +72,7 @@ suite('Color', function(){
         test('alpha', function(){
             assert.ok(nearlyEqual(red.alpha, 1));
             assert.ok(nearlyEqual(rgba.alpha, 0.3));
+            assert.ok(nearlyEqual(hsla.alpha, 0.3));
         });
     });
     suite('methods', function(){
