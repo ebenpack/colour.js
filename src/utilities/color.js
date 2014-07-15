@@ -48,40 +48,6 @@ Color.prototype.darken = function(percent){
     return new Color("hsla(" + hsl.h + "," + hsl.s + "%," + lum + "%," + this.alpha + ")");
 };
 /**
- * @param  {number} h Hue
- * @param  {number} s Saturation
- * @param  {number} l Luminance
- * @return {{r: number, g: number, b: number}}
- */
-hslToRgb = function(h, s, l){
-    function _v(m1, m2, hue){
-        hue = hue;
-        if (hue < 0){hue+=1;}
-        if (hue < (1/6)){
-            return m1 + (m2-m1)*hue*6;
-        }
-        if (hue < 0.5){
-            return m2;
-        }
-        if (hue < (2/3)){
-            return m1 + (m2-m1)*((2/3)-hue)*6;
-        }
-        return m1;
-    }
-    var m2;
-    if (s === 0){
-        return {'r': l, 'g': l, 'b': l};
-    }
-    if (l <= 0.5){
-        m2 = l * (1+s);
-    }
-    else{
-        m2 = l+s-(l*s);
-    }
-    var m1 = 2*l - m2;
-    return {'r': _v(m1, m2, h+(1/3))*255, 'g': _v(m1, m2, h)*255, 'b': _v(m1, m2, h-(1/3))*255};
-};
-/**
  * @param  {number} r Red
  * @param  {number} g Green
  * @param  {number} b Blue
