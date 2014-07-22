@@ -104,6 +104,8 @@ parseColor = function(color){
     // TODO: How cross-browser compatible is this? How efficient?
     // Make a temporary HTML element styled with the given color string
     // then extract and parse the computed rgb(a) value.
+    // N.B. This can create a loooot of DOM nodes. It's not a great method.
+    // TODO: Fix
     var div = document.createElement('div');
     div.style.backgroundColor = color;
     var rgba = div.style.backgroundColor;
