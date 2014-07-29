@@ -19,10 +19,10 @@ gulp.task('lint', function() {
 
 gulp.task('check', function(){
     // Perform type checking, etc. with closure compiler
-    gulp.src('build/wireframe.js')
+    gulp.src('build/colour.js')
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
-            fileName: 'wireframe.min.js',
+            fileName: 'colour.min.js',
             compilerFlags: {
                 warning_level: 'VERBOSE',
                 summary_detail_level: 1
@@ -32,10 +32,10 @@ gulp.task('check', function(){
 
 // Compress/minify
 gulp.task('compress', function(){
-    gulp.src('build/wireframe.js')
+    gulp.src('build/colour.js')
         .pipe(closure({
             compilerPath: '/usr/share/java/closure-compiler/closure-compiler.jar',
-            fileName: 'wireframe.min.js',
+            fileName: 'colour.min.js',
             compilerFlags: {
                 warning_level: 'QUIET',
                 compilation_level: 'SIMPLE_OPTIMIZATIONS'
@@ -45,9 +45,9 @@ gulp.task('compress', function(){
 });
 
 gulp.task('browserify', function() {
-    gulp.src('src/wireframe.js')
+    gulp.src('src/colour.js')
         .pipe(browserify({
-            standalone: 'wireframe'
+            standalone: 'colour'
         }))
         .pipe(gulp.dest('build'));
 });

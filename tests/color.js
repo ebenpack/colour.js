@@ -1,6 +1,6 @@
-var Color = require('../../src/utilities/color.js');
-var named = require('../data/colors.js');
-var nearlyEqual = require('../helpers.js')['nearlyEqual'];
+var Color = require('../src/colour.js');
+var named = require('./data/colors.js');
+var nearlyEqual = require('./helpers.js')['nearlyEqual'];
 var assert = require("assert");
 
 suite('Color', function(){

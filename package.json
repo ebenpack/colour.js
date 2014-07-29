@@ -1,0 +1,23 @@
+{
+  "name": "colour",
+  "version": "0.0.1",
+  "description": "Color manipulation library.",
+  "main": "build/colour.js",
+  "scripts": {
+    "minify": "gulp compile",
+    "test": "gulp test"
+  },
+  "author": "Eben Packwood",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-browserify": "^0.5.0",
+    "gulp-closure-compiler": "^0.2.1",
+    "gulp-jsdoc": "^0.1.4",
+    "gulp-jshint": "^1.6.1",
+    "gulp-mocha": "^0.5.2",
+    "gulp-mocha-browserify-suite": "^0.1.0",
+    "gulp-mocha-phantomjs": "^0.3.0",
+    "gulp-rimraf": "^0.1.0"
+  }
+}
