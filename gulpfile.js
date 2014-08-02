@@ -47,7 +47,7 @@ gulp.task('compress', function(){
 gulp.task('browserify', function() {
     gulp.src('src/colour.js')
         .pipe(browserify({
-            standalone: 'colour'
+            standalone: 'Colour'
         }))
         .pipe(gulp.dest('build'));
 });
