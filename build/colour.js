@@ -2,10 +2,10 @@
 var hslToRgb, rgbToHsl, parseColor, cache;
 /**
  * A color with both rgb and hsl representations.
- * @class Color
+ * @class Colour
  * @param {string} color Any legal CSS color value (hex, color keyword, rgb[a], hsl[a]).
  */
-function Color(color, alpha){
+function Colour(color, alpha){
     var hsl, rgb;
     var parsed_color = {};
     if (typeof color === 'string'){
@@ -37,36 +37,36 @@ function Color(color, alpha){
 
  * @method
  * @param  {number} percent
- * @return {Color}
+ * @return {Colour}
  */
-Color.prototype.lighten = function(percent){
+Colour.prototype.lighten = function(percent){
     var hsl = this.hsl;
     var lum = hsl.l + percent;
     if (lum > 100){
         lum = 100;
     }
-    return new Color({'h':hsl.h, 's':hsl.s, 'l':lum}, this.alpha);
+    return new Colour({'h':hsl.h, 's':hsl.s, 'l':lum}, this.alpha);
 };
 /**
  * Darken a color by the given percentage.
  * @method
  * @param  {number} percent
- * @return {Color}
+ * @return {Colour}
  */
-Color.prototype.darken = function(percent){
+Colour.prototype.darken = function(percent){
     var hsl = this.hsl;
     var lum = hsl.l - percent;
     if (lum < 0){
         lum = 0;
     }
-    return new Color({'h':hsl.h, 's':hsl.s, 'l':lum}, this.alpha);
+    return new Colour({'h':hsl.h, 's':hsl.s, 'l':lum}, this.alpha);
 };
 /**
  * Return a string representation of color in #hex form.
  * @method
  * @return {string}
  */
-Color.prototype.toHexString = function(){
+Colour.prototype.toString = function(){
     var r = this.rgb.r.toString(16);
     var g = this.rgb.g.toString(16);
     var b = this.rgb.b.toString(16);
@@ -81,7 +81,7 @@ Color.prototype.toHexString = function(){
         b = "0" + b;
     }
     return "#" + r + g + b;
-}
+};
 /**
 * @param {number} h Hue
 * @param {number} s Saturation
@@ -172,7 +172,7 @@ rgbToHsl = function(r, g, b){
  * Parse a CSS color value and return an rgba color object.
  * @param  {string} color A legal CSS color value (hex, color keyword, rgb[a], hsl[a]).
  * @return {{r: number, g: number, b: number, a: number}}   rgba color object.
- * @throws {ColorError} If illegal color value is passed.
+ * @throws {ColourError} If illegal color value is passed.
  */
 parseColor = function(color){
     // TODO: This isn't perfect. Some strings that would be accepted CSS color values
@@ -181,7 +181,6 @@ parseColor = function(color){
     var alpha = 1;
     var regex, match;
     var pref = color.substr(0,3); // Three letter color prefix
-    var return_color = {};
     var error = false;
     if (pref === 'hsl'){
         regex = /(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})/g;
@@ -242,7 +241,7 @@ parseColor = function(color){
     }
 
     if (error){
-        throw "ColorError: Something went wrong. Perhaps " + color + " is not a legal CSS color value";
+        throw "ColourError: Something went wrong. Perhaps " + color + " is not a legal CSS color value";
     }
     return {'r': red, 'g': green, 'b': blue, 'a': alpha};
 };
@@ -398,7 +397,7 @@ cache = {
     "yellowgreen": {"r": 154, "g": 205, "b": 50, "h": 80, "s": 61, "l": 50}
 };
 
-module.exports = Color;
+module.exports = Colour;
 
 },{}]},{},[1])
 (1)

@@ -1,18 +1,18 @@
-var Color = require('../src/colour.js');
+var Colour = require('../src/colour.js');
 var named = require('./data/colors.js');
 var nearlyEqual = require('./helpers.js')['nearlyEqual'];
 var assert = require("assert");
 
-suite('Color', function(){
+suite('Colour', function(){
     var red, green, blue, rgb, rgba, hsl, hsla;
     setup(function(){
-        red = new Color("red");
-        green = new Color("#0F0"); // Named color 'green' is rgb(0,128,0)
-        blue = new Color("blue");
-        rgb = new Color("rgb(1, 7, 29)");
-        rgba = new Color("rgba(1, 7, 29, 0.3)");
-        hsl = new Color("hsl(0, 100%, 50%)");
-        hsla = new Color("hsla(0, 100%, 50%, 0.3)");
+        red = new Colour("red");
+        green = new Colour("#0F0"); // Named color 'green' is rgb(0,128,0)
+        blue = new Colour("blue");
+        rgb = new Colour("rgb(1, 7, 29)");
+        rgba = new Colour("rgba(1, 7, 29, 0.3)");
+        hsl = new Colour("hsl(0, 100%, 50%)");
+        hsla = new Colour("hsla(0, 100%, 50%, 0.3)");
     });
     suite('properties', function(){
         test('rgb', function(){
@@ -29,8 +29,8 @@ suite('Color', function(){
             assert.ok(nearlyEqual(rgba.alpha, 0.3));
             for (var color in named){
                 if (named.hasOwnProperty(color)){
-                    var name = new Color(color);
-                    var hex = new Color(named[color].hex);
+                    var name = new Colour(color);
+                    var hex = new Colour(named[color].hex);
                     var named_rgb = named[color].rgb;
                     assert.equal(name.rgb.r, hex.rgb.r);
                     assert.equal(name.rgb.g, hex.rgb.g);
@@ -57,8 +57,8 @@ suite('Color', function(){
             assert.ok(nearlyEqual(hsla.alpha, 0.3));
             for (var color in named){
                 if (named.hasOwnProperty(color)){
-                    var name = new Color(color);
-                    var hex = new Color(named[color].hex);
+                    var name = new Colour(color);
+                    var hex = new Colour(named[color].hex);
                     var named_hsl = named[color].rgb;
                     assert.equal(name.rgb.h, hex.rgb.h);
                     assert.equal(name.rgb.s, hex.rgb.s);
@@ -160,17 +160,13 @@ suite('Color', function(){
             assert.equal(b3.rgb.b, 0);
         });
         test('toString', function(){
-            var r1 = red.toHexString();
-            var g1 = green.toHexString();
-            var b1 = blue.toHexString();
-            var rgb1 = rgb.toHexString();
-            var rgba1 = rgba.toHexString();
-            var hsl1 = hsl.toHexString();
-            var hsla1 = hsl.toHexString();
-            rgb = new Color("rgb(1, 7, 29)");
-            rgba = new Color("rgba(1, 7, 29, 0.3)");
-            hsl = new Color("hsl(0, 100%, 50%)");
-            hsla = new Color("hsla(0, 100%, 50%, 0.3)");
+            var r1 = red.toString();
+            var g1 = green.toString();
+            var b1 = blue.toString();
+            var rgb1 = rgb.toString();
+            var rgba1 = rgba.toString();
+            var hsl1 = hsl.toString();
+            var hsla1 = hsl.toString();
             assert.equal(r1.toLowerCase(), "#ff0000");
             assert.equal(g1.toLowerCase(), "#00ff00");
             assert.equal(b1.toLowerCase(), "#0000ff");
