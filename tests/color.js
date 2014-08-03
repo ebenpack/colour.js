@@ -159,5 +159,25 @@ suite('Color', function(){
             assert.equal(b3.rgb.g, 0);
             assert.equal(b3.rgb.b, 0);
         });
+        test('toString', function(){
+            var r1 = red.toHexString();
+            var g1 = green.toHexString();
+            var b1 = blue.toHexString();
+            var rgb1 = rgb.toHexString();
+            var rgba1 = rgba.toHexString();
+            var hsl1 = hsl.toHexString();
+            var hsla1 = hsl.toHexString();
+            rgb = new Color("rgb(1, 7, 29)");
+            rgba = new Color("rgba(1, 7, 29, 0.3)");
+            hsl = new Color("hsl(0, 100%, 50%)");
+            hsla = new Color("hsla(0, 100%, 50%, 0.3)");
+            assert.equal(r1.toLowerCase(), "#ff0000");
+            assert.equal(g1.toLowerCase(), "#00ff00");
+            assert.equal(b1.toLowerCase(), "#0000ff");
+            assert.equal(rgb1.toLowerCase(), "#01071d");
+            assert.equal(rgba1.toLowerCase(), "#01071d");
+            assert.equal(hsl1.toLowerCase(), "#ff0000");
+            assert.equal(hsla1.toLowerCase(), "#ff0000");
+        });
     });
 });

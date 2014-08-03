@@ -61,6 +61,27 @@ Color.prototype.darken = function(percent){
     return new Color({'h':hsl.h, 's':hsl.s, 'l':lum}, this.alpha);
 };
 /**
+ * Return a string representation of color in #hex form.
+ * @method
+ * @return {string}
+ */
+Color.prototype.toHexString = function(){
+    var r = this.rgb.r.toString(16);
+    var g = this.rgb.g.toString(16);
+    var b = this.rgb.b.toString(16);
+    // Zero fill
+    if (r.length === 1){
+        r = "0" + r;
+    }
+    if (g.length === 1){
+        g = "0" + g;
+    }
+    if (b.length === 1){
+        b = "0" + b;
+    }
+    return "#" + r + g + b;
+}
+/**
 * @param {number} h Hue
 * @param {number} s Saturation
 * @param {number} l Luminance
