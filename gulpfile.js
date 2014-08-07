@@ -73,7 +73,7 @@ gulp.task('cleandocs', function() {
 });
 
 gulp.task('browserify-tests', ['cleantests'], function() {
-    return gulp.src('/**/*.js')
+    return gulp.src('tests/**/*.js')
         .pipe(generateSuite())
         .pipe(browserify({
             standalone: 'tests',
@@ -91,5 +91,5 @@ gulp.task('default', ['lint', 'browserify', 'watch']);
 gulp.task('compile', ['browserify', 'compress']);
 gulp.task('check', ['lint', 'browserify', 'check']);
 gulp.task('test', function(){
-    gulp.watch(['tests/**/*.{js,html}', '!tests/build/*'], ['mocha']);
+    gulp.watch(['src/**/*.js', 'tests/**/*.js', '!tests/build/*'], ['mocha']);
 });
