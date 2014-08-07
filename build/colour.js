@@ -168,6 +168,12 @@ rgbToHsl = function(r, g, b){
     if (s < 0) {s = 0;}
     return {'h': h, 's': s, 'l': l};
 };
+// Clamp x and y values to min and max
+function clamp(x, min, max){
+    if (x < min){x = min;}
+    else if (x > max){x = max;}
+    return x;
+}
 /**
  * Parse a CSS color value and return an rgba color object.
  * @param  {string} color A legal CSS color value (hex, color keyword, rgb[a], hsl[a]).
@@ -175,47 +181,69 @@ rgbToHsl = function(r, g, b){
  * @throws {ColourError} If illegal color value is passed.
  */
 parseColor = function(color){
-    // TODO: This isn't perfect. Some strings that would be accepted CSS color values
-    // (e.g. negative numbers, alpha greater than 1) will not work.
     var red, green, blue, hue, sat, lum;
     var alpha = 1;
-    var regex, match;
-    var pref = color.substr(0,3); // Three letter color prefix
+    var match;
     var error = false;
+    var pref = color.substr(0,3); // Three letter color prefix
+    // HSL(a)
     if (pref === 'hsl'){
-        regex = /(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})/g;
-        match = regex.exec(color);
-        hue = parseInt(match[1], 10);
-        sat = parseInt(match[2], 10);
-        lum = parseInt(match[3], 10);
-        if (color[3] === 'a'){
-            regex = /,\s*(\d\.?\d?)\s*\)/g;
-            match = regex.exec(color);
-            alpha = parseFloat(match[1]);
-        }
-        if (hue < 0 || hue > 360 ||
-            sat < 0 || sat > 100 ||
-            lum < 0 || lum > 100 ||
-            alpha < 0 || alpha > 1){
-            error = true;
-        } else {
+        var hsl_regex = /hsla?\(\s*(-?\d+)\s*,\s*(-?\d+)%\s*,\s*(-?\d+)%\s*(,\s*(-?\d+(\.\d+)?)\s*)?\)/g;
+        match = hsl_regex.exec(color);
+        if (match){
+            hue = parseInt(match[1], 10);
+            sat = parseInt(match[2], 10);
+            lum = parseInt(match[3], 10);
+            if (color[3] === 'a'){
+                alpha = parseFloat(match[5]);
+            }
+            hue = Math.abs(hue % 360);
+            sat = clamp(sat, 0, 100);
+            lum = clamp(lum, 0, 100);
             var parsed = hslToRgb(hue, sat, lum);
             red = parsed.r;
             green = parsed.g;
             blue = parsed.b;
+        } else {
+            error = true;
         }
-
+    // RGB(a)
     } else if (pref === 'rgb'){
-        regex = /(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/g;
-        match = regex.exec(color);
-        red = parseInt(match[1], 10);
-        green = parseInt(match[2], 10);
-        blue = parseInt(match[3], 10);
-        if (color[3] === 'a'){
-            regex = /,\s*(\d\.?\d?)\s*\)/g;
-            match = regex.exec(color);
-            alpha = parseFloat(match[1]);
+        var rgb_regex = /rgba?\((-?\d+%?)\s*,\s*(-?\d+%?)\s*,\s*(-?\d+%?)(,\s*(-?\d+(\.\d+)?)\s*)?\)/g;
+        match = rgb_regex.exec(color);
+        if (match){
+            var m1 = match[1];
+            var m2 = match[2];
+            var m3 = match[3];
+            red = parseInt(match[1], 10);
+            green = parseInt(match[2], 10);
+            blue = parseInt(match[3], 10);
+            // Check if using rgb(a) percentage values.
+            if (m1[m1.length-1] === '%' ||
+                m2[m2.length-1] === '%' ||
+                m3[m3.length-1] === '%'){
+                // All values must be percetage.
+                if (m1[m1.length-1] === '%' &&
+                    m2[m2.length-1] === '%' &&
+                    m3[m3.length-1] === '%'){
+                    // Convert to 255
+                    red = Math.floor(red/100 * 255);
+                    green = Math.floor(green/100 * 255);
+                    blue = Math.floor(blue/100 * 255);
+                } else {
+                   error = true; 
+                }
+            }
+            red = clamp(red, 0, 255);
+            green = clamp(green, 0, 255);
+            blue = clamp(blue, 0, 255);
+            if (color[3] === 'a'){
+                alpha = parseFloat(match[5]);
+            }
+        } else {
+            error = true;
         }
+    // HEX
     } else if (color[0] === '#'){
         var hex = color.substr(1);
         if (hex.length === 3){
@@ -233,12 +261,7 @@ parseColor = function(color){
         error = true;
     }
 
-    if (red < 0 || red > 255 ||
-        green < 0 || green > 255 ||
-        blue < 0 || blue > 255 ||
-        alpha < 0 || alpha > 1){
-        error = true;
-    }
+    alpha = clamp(alpha, 0, 1);
 
     if (error){
         throw "ColourError: Something went wrong. Perhaps " + color + " is not a legal CSS color value";
