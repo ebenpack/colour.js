@@ -4,15 +4,23 @@ var nearlyEqual = require('./helpers.js')['nearlyEqual'];
 var assert = require("assert");
 
 suite('Colour', function(){
-    var red, green, blue, rgb, rgba, hsl, hsla;
+    var red, green, blue, rgb, rgba, hsl, hsla, rgb_per, rgb_bad1, rgb_bad2, rgb_bad3, hsl_bad1, hsl_bad2;
     setup(function(){
         red = new Colour("red");
         green = new Colour("#0F0"); // Named color 'green' is rgb(0,128,0)
         blue = new Colour("blue");
         rgb = new Colour("rgb(1, 7, 29)");
         rgba = new Colour("rgba(1, 7, 29, 0.3)");
+        rgb_per = new Colour("rgba(100%, 0%, 0%, 1)");
         hsl = new Colour("hsl(0, 100%, 50%)");
-        hsla = new Colour("hsla(0, 100%, 50%, 0.3)");
+        hsla = new Colour("hsla(0, 100%, 50%, 0.3 )");
+
+        // These are poorly formatted colors, but they should still work.
+        rgb_bad1 = new Colour("rgb(300,0,0)");
+        rgb_bad2 = new Colour("rgb(255,-10,0)");
+        rgb_bad3 = new Colour("rgba(110%, 0%, 0%, 2)");
+        hsl_bad1 = new Colour("hsl(720, 120%, 120%)");
+        hsl_bad2 = new Colour("hsl(-720, -120%, -120%)");
     });
     suite('properties', function(){
         test('rgb', function(){
@@ -27,6 +35,20 @@ suite('Colour', function(){
             assert.equal(rgba.rgb.g, 7);
             assert.equal(rgba.rgb.b, 29);
             assert.ok(nearlyEqual(rgba.alpha, 0.3));
+            assert.equal(rgb_per.rgb.r, 255);
+            assert.equal(rgb_per.rgb.g, 0);
+            assert.equal(rgb_per.rgb.b, 0);
+            assert.equal(rgb_bad1.rgb.r, 255);
+            assert.equal(rgb_bad1.rgb.g, 0);
+            assert.equal(rgb_bad1.rgb.b, 0);
+            assert.equal(rgb_bad2.rgb.r, 255);
+            assert.equal(rgb_bad2.rgb.g, 0);
+            assert.equal(rgb_bad2.rgb.b, 0);
+            assert.equal(rgb_bad3.rgb.r, 255);
+            assert.equal(rgb_bad3.rgb.g, 0);
+            assert.equal(rgb_bad3.rgb.b, 0);
+            assert.equal(rgb_bad3.alpha, 1);
+            
             for (var color in named){
                 if (named.hasOwnProperty(color)){
                     var name = new Colour(color);
@@ -55,6 +77,14 @@ suite('Colour', function(){
             assert.equal(hsla.hsl.s, 100);
             assert.equal(hsla.hsl.l, 50);
             assert.ok(nearlyEqual(hsla.alpha, 0.3));
+
+            // assert.equal(hsl_bad1.r, 255);
+            // assert.equal(hsl_bad1.g, 255);
+            // assert.equal(hsl_bad1.b, 255);
+            // assert.equal(hsl_bad2.r, 255);
+            // assert.equal(hsl_bad2.g, 255);
+            // assert.equal(hsl_bad2.b, 255);
+            
             for (var color in named){
                 if (named.hasOwnProperty(color)){
                     var name = new Colour(color);
