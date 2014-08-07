@@ -73,7 +73,7 @@ gulp.task('cleandocs', function() {
 });
 
 gulp.task('browserify-tests', ['cleantests'], function() {
-    return gulp.src('tests/**/*.js')
+    return gulp.src('/**/*.js')
         .pipe(generateSuite())
         .pipe(browserify({
             standalone: 'tests',
