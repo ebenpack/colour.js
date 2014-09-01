@@ -30,6 +30,8 @@ function Colour(color, alpha){
     this.rgb = {'r': rgb.r, 'g': rgb.g, 'b': rgb.b};
     this.hsl = {'h': hsl.h, 's': hsl.s, 'l': hsl.l};
     this.alpha = alpha;
+    // Precompute and store string representation of color.
+    this._color_string = this._toString();
 }
 /**
  * Lighten a color by the given percentage.
@@ -65,7 +67,11 @@ Colour.prototype.darken = function(percent){
  * @method
  * @return {string}
  */
-Colour.prototype.toString = function(){
+Colour.prototype.toString = function() {
+    return this._color_string;
+};
+
+Colour.prototype._toString = function(){
     var r = this.rgb.r.toString(16);
     var g = this.rgb.g.toString(16);
     var b = this.rgb.b.toString(16);
