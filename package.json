@@ -2,7 +2,7 @@
   "name": "colour",
   "version": "0.0.1",
   "description": "Color manipulation library.",
-  "main": "build/colour.js",
+  "main": "src/colour.js",
   "scripts": {
     "minify": "gulp compile",
     "test": "gulp test"
